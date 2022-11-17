@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BaiTapVideo.Areas.Admin.Models;
 using System.Drawing;
 using NuGet.Protocol;
+using Newtonsoft.Json;
 
 namespace BaiTapVideo.Areas.Admin.Controllers
 {
@@ -72,21 +73,21 @@ namespace BaiTapVideo.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public JsonResult Details(int? id)
         {
             if (id == null || _context.Categories == null)
             {
-                return NotFound();
+                return Json("Not found");
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var category = _context.Categories
+                .FirstOrDefault(m => m.Id == id);
             if (category == null)
             {
-                return NotFound();
+                return Json("Not found");
             }
 
-            return View(category);
+            return Json(category.ToJson());
         }
 
         // GET: Admin/Categories/Create
@@ -128,12 +129,7 @@ namespace BaiTapVideo.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            List<Status> ListStatus = new List<Status>();
-            ListStatus.Add(new Status(0, "Không hoạt động"));
-            ListStatus.Add(new Status(1, "Hoạt động"));
-            ViewData["listStatus"] = new SelectList(ListStatus, "id", "name");
-            ViewBag.cat = category.ToJson();
-            return RedirectToAction(nameof(Index),category);
+            return Json(category.ToJson());
         }
 
         // POST: Admin/Categories/Edit/5

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DtLnFF/8n/wFOhh1NEB5FN/Po+BeTAgtDafWOn3SMwnzBJ+kyADLr4PFZ6SC63+bKEF8iVDk/S+xCzG00jyB3A==",
+  "dgSpecHash": "Sa6W39sX6RlbgcZtmJavUtQs1wseoYHre1ELlnZO+c4YZN/ozl9GOFGbPLhp4AdkgqN2n5v/x7MPUocTddn+pA==",
   "success": true,
-  "projectFilePath": "E:\\core\\BaiTapVideo\\BaiTapVideo\\BaiTapVideo.csproj",
+  "projectFilePath": "E:\\core_vs\\BaiTapVideo\\BaiTapVideo\\BaiTapVideo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

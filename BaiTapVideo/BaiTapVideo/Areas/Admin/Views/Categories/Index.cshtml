@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json.Linq
+@using Newtonsoft.Json
 
 @*@model IEnumerable<BaiTapVideo.Areas.Admin.Models.Category>*@
 @model BaiTapVideo.Areas.Admin.Models.Category
@@ -53,32 +54,34 @@
 </div>
 
 <!-- Edit -->
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+<div class="modal fade" id="editval" tabindex="-1" role="dialog" aria-labelledby="editval" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">Edit</div>
             <form asp-action="Edit">
+            <div class="modal-header">Edit</div>
+            <div class="modal-body">
+
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="text" asp-for="Id" />
+                <input type="hidden" asp-for="Id" id="editid"/>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
+                    <input asp-for="Name" class="form-control" id="editname"/>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Slug" class="control-label"></label>
-                    <input asp-for="Slug" class="form-control" />
+                    <input asp-for="Slug" class="form-control" id="editslug"/>
                     <span asp-validation-for="Slug" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Status" class="control-label"></label>
-                    <select asp-for="Status" class="form-select">
+                    <select id="editstatus" asp-for="Status" class="form-select">
                         <option value="1">Hoạt động</option>
                         <option value="0">Không hoạt động</option>
                     </select>
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
-                    <br/>
+            </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" value="edit" class="btn btn-primary">Save</button>
@@ -88,8 +91,45 @@
     </div>
 </div>
 
+<!-- Detail -->
+<div class="modal fade" id="detailsval" tabindex="-1" role="dialog" aria-labelledby="detailsval" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-action="Details">
+            <div class="modal-header">Details</div>
+            <div class="modal-body">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" id="detailid"/>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" id="detailname" readonly/>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Slug" class="control-label"></label>
+                    <input asp-for="Slug" class="form-control" id="detailslug" readonly />
+                    <span asp-validation-for="Slug" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select id="detailstatus" asp-for="Status" class="form-select">
+                        <option disabled value="1">Hoạt động</option>
+                        <option disabled value="0">Không hoạt động</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Delete -->
-<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+<div class="modal fade" id="deletecf" tabindex="-1" role="dialog" aria-labelledby="deletecf" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form asp-action="Delete">
@@ -97,7 +137,8 @@
                 Delete confirm
             </div>
             <div class="modal-body">
-                    <input type="text" asp-for="Id" id="delvalue"/>
+                <label>Are you sure to delete this category</label>
+                    <input type="hidden" asp-for="Id" id="delvalue"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -133,24 +174,25 @@
     <tbody>
         @{
             var objects = JArray.Parse(ViewBag.query3);
-                                            @foreach(var item in objects){
-                                                <tr>
-                                                    <td>
-                                                        @item["Name"]
-                                                    </td>
-                                                    <td>
-                                                        @item["Slug"]
-                                                    </td>
-                                                    <td>
-                                                        @item["Status"]
-                                                    </td>
-                                                    <td>
-                                                        <a data-toggle="modal"o data-target="#edit" asp-action="Edit" asp-route-id="@item["Id"]">Edit</a> |
-                                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                                        <button id="delete" type="button" value="@item["Id"]">Delete</button>
-                                                        
-                                                    </td>
-                                                </tr>
+                                                @foreach(var item in objects){
+                                                    <tr>
+                                                        <td>
+                                                            @item["Name"]
+                                                        </td>
+                                                        <td>
+                                                            @item["Slug"]
+                                                        </td>
+                                                        <td>
+                                                            @item["Status"]
+                                                        </td>
+                                                        <td>
+                                                                                                    
+                                                        <button id="edit" type="button" data-id="@item["Id"]" data-toggle="modal" data-target="#editval">Edit</button> |
+                                                        <button id="details" type="button" data-id="@item["Id"]" data-toggle="modal" data-target="#detailsval">Details</button> |
+                                                        <button id="delete" type="button" data-id="@item["Id"]" data-toggle="modal" data-target="#deletecf">Delete</button>
+                                                                                                                                    
+                                                        </td>
+                                                    </tr>
             }
         
         }
@@ -162,4 +204,61 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    }
+
+    @section Sendvalue{
+    <script type="text/javascript">
+        $(document).on("click", "#delete", function () {
+            var eventId = $(this).data('id');
+            
+            $(".modal-body #delvalue").val(eventId);
+        });
+        
+        $(document).on("click", "#edit", function () {
+            var eventId = $(this).data('id');
+            $.ajax({
+                url: '@Url.Action("Details","Categories")',
+                datatype: "JSON",
+                type: "GET",
+                data: { id: eventId },
+                success: function (data) {
+
+                    var list = JSON.parse(data);
+                    $(".modal-body #editid").val(list.Id);
+                    $(".modal-body #editname").val(list.Name);
+                    $(".modal-body #editslug").val(list.Slug);
+                    $(".modal-body #editstatus").val(list.Status);
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
+        });
+
+        $(document).on("click", "#details", function () {
+            var eventId = $(this).data('id');
+            $.ajax({
+                url: '@Url.Action("Details","Categories")',
+                datatype: "JSON",
+                type: "GET",
+                data: {id:eventId},
+                success: function (data) {
+
+                    var list = JSON.parse(data);
+                    $(".modal-body #detailid").val(list.Id);
+                    $(".modal-body #detailname").val(list.Name);
+                    $(".modal-body #detailslug").val(list.Slug);
+                    $(".modal-body #detailstatus").val(list.Status);
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
+
+            
+            //$(".modal-body #detailstatus").val(details["Status"]);
+
+        });
+
+    </script>
     }

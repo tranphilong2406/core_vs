@@ -10062,11 +10062,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\core\\BaiTapVideo\\BaiTapVideo\\BaiTapVideo.csproj",
+      "projectUniqueName": "E:\\core_vs\\BaiTapVideo\\BaiTapVideo\\BaiTapVideo.csproj",
       "projectName": "BaiTapVideo",
-      "projectPath": "E:\\core\\BaiTapVideo\\BaiTapVideo\\BaiTapVideo.csproj",
+      "projectPath": "E:\\core_vs\\BaiTapVideo\\BaiTapVideo\\BaiTapVideo.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "E:\\core\\BaiTapVideo\\BaiTapVideo\\obj\\",
+      "outputPath": "E:\\core_vs\\BaiTapVideo\\BaiTapVideo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
