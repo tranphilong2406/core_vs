@@ -1,0 +1,165 @@
+﻿@using Newtonsoft.Json.Linq
+
+@*@model IEnumerable<BaiTapVideo.Areas.Admin.Models.Category>*@
+@model BaiTapVideo.Areas.Admin.Models.Category
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<!-- Create -->
+<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="createCat" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-action="Create">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Slug" class="control-label"></label>
+                        <input asp-for="Slug" class="form-control" />
+                        <span asp-validation-for="Slug" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="1">Hoạt động</option>
+                            <option value="0">Không hoạt động</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                    <br></br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" value="create" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">Edit</div>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="text" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Slug" class="control-label"></label>
+                    <input asp-for="Slug" class="form-control" />
+                    <span asp-validation-for="Slug" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="1">Hoạt động</option>
+                        <option value="0">Không hoạt động</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                    <br/>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" value="edit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete -->
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-action="Delete">
+            <div class="modal-header">
+                Delete confirm
+            </div>
+            <div class="modal-body">
+                    <input type="text" asp-for="Id" id="delvalue"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" value="Delete" class="btn btn-primary">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<p>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create">
+        Create
+    </button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên chuyên mục
+            </th>
+            <th>
+                Slug
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th>
+                Chức năng
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var objects = JArray.Parse(ViewBag.query3);
+                                            @foreach(var item in objects){
+                                                <tr>
+                                                    <td>
+                                                        @item["Name"]
+                                                    </td>
+                                                    <td>
+                                                        @item["Slug"]
+                                                    </td>
+                                                    <td>
+                                                        @item["Status"]
+                                                    </td>
+                                                    <td>
+                                                        <a data-toggle="modal"o data-target="#edit" asp-action="Edit" asp-route-id="@item["Id"]">Edit</a> |
+                                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                                        <button id="delete" type="button" value="@item["Id"]">Delete</button>
+                                                        
+                                                    </td>
+                                                </tr>
+            }
+        
+        }
+    </tbody>
+</table>
+@*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+@*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

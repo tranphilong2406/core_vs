@@ -1,0 +1,77 @@
+﻿@model BaiTapVideo.Areas.Admin.Models.Post
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Post</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FullContent" class="control-label"></label>
+                <input asp-for="FullContent" class="form-control" />
+                <span asp-validation-for="FullContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Chọn hình ảnh</label>
+                <input asp-for="Img" type="file" name="ful_img" id="ful_img" class="form-control" />
+                <img id="img_post" alt="Hình ảnh" />
+                <span asp-validation-for="Img" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.listStatus"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CatId" class="control-label"></label>
+                <select asp-for="CatId" class="form-control" asp-items="ViewBag.CatId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="create" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    document.getElementById('ful_img').onchange = (e) => {
+        document.getElementById('img_post').src = URL.createObjectURL(e.target.files[0]);
+    }
+
+    document.getElementById('create').onclick = function(){
+        var img = document.getElementById('ful_img').value;
+        if(img != ''){
+            var image = document.getElementById('ful_img');
+            var size = parseFloat(image.files[0].size).toFixed(2);
+            console.log(size);
+            if(size > 2){
+                alert("File size is to big");
+                document.getElementById('ful_img').value = "";
+                exit;
+            }
+        }
+    }
+
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
